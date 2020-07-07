@@ -11,7 +11,7 @@ const autoCheck=(req,res,next)=>{
     }
 }
 
-router.get("/home",autoCheck,(req,res)=>{
+router.get("/home/",autoCheck,(req,res)=>{
     res.send("<h1> Welcome to the Home Page <h1>")
 });
 

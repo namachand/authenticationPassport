@@ -1,5 +1,6 @@
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20");
+const passport= require("passport");
+const GoogleStrategy= require("passport-google-oauth20");
+const FacebookStrategy = require('passport-facebook');
 const keys = require("./keys");
 const UserAuthInfo = require("../models/userInformationModel");
 
@@ -17,19 +18,10 @@ passport.deserializeUser((id,done)=>{
     })
 })
 
-
-passport.use(
-  //option for the google strategy
-    new GoogleStrategy({
-        //callback for the google to redirect when authenticate
-        callbackURL:"/authentication/google/redirect",
-        //client ID's and clientSecret ID's
-        clientID:keys.google.clientId,
-        clientSecret:keys.google.clientSecret
-    }, 
-    (accessToken,refreshToken,profile,done)=>{
-        //checking if user already in database
-        UserAuthInfo.findOne({googleId:profile.id})
+const cb=(accessToken,refreshToken,profile,done)=>{
+    console.log("Inside the callback function");
+    console.log(profile);
+    UserAuthInfo.findOne({authId:profile.id})
         .then((currentUser)=>{
             //checking if user already exists
             if(currentUser){
@@ -41,7 +33,7 @@ passport.use(
             else{
                 new UserAuthInfo({
                     username : profile.displayName,
-                    googleId : profile.id
+                    authId : profile.id
                 })
                 .save()
                 .then((updatedUser)=>{                    
@@ -51,5 +43,28 @@ passport.use(
 
             }
         })
-    })
+}
+
+//Google Strategy
+passport.use(
+    new GoogleStrategy({
+        //callback for the google to redirect when authenticate
+        callbackURL:"/authentication/google/redirect",
+        //client ID's and clientSecret ID's
+        clientID:keys.google.clientId,
+        clientSecret:keys.google.clientSecret
+    },cb
+    )
+)
+
+//Facebook Strategy
+passport.use(
+    new FacebookStrategy({
+        //callback for the google to redirect when authenticate
+        callbackURL:"/authentication/facebook/redirect",
+        //client ID's and clientSecret ID's
+        clientID:keys.facebook.appId,
+        clientSecret:keys.facebook.appSecret
+    },cb
+    )
 )

@@ -3,13 +3,13 @@ const http = require("http");
 const bodyParser  = require("body-parser");
 const cors = require("cors");
 const mongoose = require('mongoose');
-const googleAuthStrategy = require("./authServices/googleAuthStrategy");
+const authStrategy = require("./authServices/authStrategy");
 const keys = require('./authServices/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 
 //importing the routes
-const googleOAuthRoute=require("./routers/googleAuth");
+const oAuthRoute=require("./routers/oAuthRoute");
 const pagesRoute=require("./routers/pagesRoute");
 const logoutRoute=require("./routers/logoutRoute")
 
@@ -31,7 +31,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //handling the routes
-app.use("/authentication",googleOAuthRoute);
+app.use("/authentication",oAuthRoute);
 app.use("/page",pagesRoute)
 app.use("/user",logoutRoute)
 

@@ -4,7 +4,7 @@ const userInformationSchema=new mongoose.Schema({
         type:String,
         default:""
     },
-    googleId:{
+    authId:{
         type:String,
         default:""
     },

@@ -8,7 +8,8 @@ class Home extends React.Component{
                     <h1>Please authenticate!</h1>       
                 </div>
                 <div style={{display:'flex',justifyContent:'center'}}>
-                    <a href="http://localhost:3231/authentication/google"><Button className="btn btn-danger">google+</Button></a> 
+                    <a href="http://localhost:3231/authentication/google"><Button className="btn btn-danger">google+</Button></a>
+                    <a href="http://localhost:3231/authentication/facebook"><Button className="btn btn-primary offset-1">facebook</Button></a> 
                 </div>
                 <div style={{display:'flex',justifyContent:'center'}}>
                     <h1>Logout!</h1>       
